@@ -29,9 +29,9 @@ export default defineNuxtConfig({
         },
         {
           property: "og:image",
-          content: "https://jairpl.com/lind/og-image.jpg",
+          content: "https://jairpl.com/og-image.jpg",
         },
-        { property: "og:url", content: "https://jairpl.com/lind" },
+        { property: "og:url", content: "https://jairpl.com" },
         { property: "og:type", content: "website" },
 
         // Twitter Card
@@ -43,7 +43,7 @@ export default defineNuxtConfig({
         },
         {
           name: "twitter:image",
-          content: "https://jairpl.com/lind/og-image.jpg",
+          content: "https://jairpl.com/og-image.jpg",
         },
       ],
     },
