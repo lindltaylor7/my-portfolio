@@ -45,7 +45,7 @@
             </p>
 
             <NuxtLink
-              :to="`/blog/${post.slug}`"
+              :to="`/blog/post?slug=${post.slug}`"
               class="inline-flex items-center gap-2 text-cyan-400 hover:gap-3 transition-all duration-300 font-medium"
             >
               Leer más
@@ -68,7 +68,7 @@
 
           <!-- Efecto glow en hover -->
           <div
-            class="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-500 bg-[radial-gradient(circle_at_center,_#00ffff33,_transparent_70%)]"
+            class="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-500 bg-[radial-gradient(circle_at_center,_#00ffff33,_transparent_70%)] pointer-events-none"
           ></div>
         </div>
       </div>
