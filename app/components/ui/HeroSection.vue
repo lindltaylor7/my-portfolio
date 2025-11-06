@@ -7,7 +7,7 @@
 
     <!-- Texto principal -->
     <div class="relative z-10">
-      <h1 class="text-5xl font-bold">Hello Friend Lind Taylor!!! 👋</h1>
+      <h1 class="text-5xl font-bold">Hello Friend 👋</h1>
       <p class="text-xl mt-4 text-gray-400">I'm a FullStack Dev</p>
     </div>
 
