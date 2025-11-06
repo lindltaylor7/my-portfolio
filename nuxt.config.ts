@@ -5,7 +5,7 @@ export default defineNuxtConfig({
     preset: "static",
   },
   app: {
-    baseURL: "/lind/",
+    baseURL: "/",
     buildAssetsDir: "/_nuxt/",
   },
   css: ["~/assets/css/main.css"],
