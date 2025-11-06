@@ -10,7 +10,7 @@ export default defineNuxtConfig({
     preset: "static",
     prerender: {
       crawlLinks: true,
-      routes: ["/", "/blog/test"],
+      routes: ["/"],
     },
   },
   app: {
