@@ -9,7 +9,7 @@ export default defineNuxtConfig({
   nitro: {
     preset: "static",
     prerender: {
-      routes: ["/", "/blog"],
+      routes: ["/", "/blog/test"],
     },
   },
   app: {
