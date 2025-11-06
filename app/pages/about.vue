@@ -23,11 +23,16 @@
           través de la innovación.
         </p>
 
+        <p class="mt-6 text-cyan-400 font-mono text-sm typing">
+          “El codigo es mi lienzo, la lógica mi lenguaje.”
+        </p>
+
         <!-- Botón o enlace -->
         <div class="mt-8">
           <a
-            href="#contact"
-            class="inline-block bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-3 rounded-lg shadow-md transition-all"
+            href="https://wa.link/hf7syi"
+            target="_blank"
+            class="inline-flex items-center gap-2 bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-3 rounded-lg shadow-md transition-all"
           >
             Contáctame
           </a>
@@ -39,7 +44,7 @@
         <img
           src="https://thumbs.dreamstime.com/b/detailed-technical-drawing-humanoid-robot-head-pencil-drawing-showing-inner-workings-futuristic-robot-head-ai-338913526.jpg"
           alt="Foto de Jair Pariona"
-          class="rounded-2xl shadow-lg max-w-sm w-full object-cover mask-reveal"
+          class="mask-reveal about-img rounded-2xl shadow-lg max-w-sm w-full object-cover cursor-pointer"
         />
       </div>
     </div>
@@ -47,7 +52,19 @@
 </template>
 
 <script setup>
-// No necesitas lógica por ahora
+import { onMounted, onUnmounted } from "vue";
+import { PhoneCall } from "lucide-vue-next";
+
+onMounted(() => {
+  const img = document.querySelector(".about-img");
+  const handleMouseMove = (e) => {
+    const x = (window.innerWidth / 2 - e.pageX) / 40;
+    const y = (window.innerHeight / 2 - e.pageY) / 40;
+    img.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+  };
+  document.addEventListener("mousemove", handleMouseMove);
+  onUnmounted(() => document.removeEventListener("mousemove", handleMouseMove));
+});
 </script>
 
 <style scoped>
@@ -57,7 +74,7 @@ section {
 
 .mask-reveal {
   animation: reveal 2.5s ease forwards;
-  mask-image: linear-gradient(to right, transparent 0%, black 50%, black 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 50%, black 0%);
   -webkit-mask-image: linear-gradient(
     to right,
     transparent 0%,
@@ -68,14 +85,28 @@ section {
   -webkit-mask-size: 200%;
 }
 
-@keyframes reveal {
+.typing {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid #00ffff;
+  animation: typing 3s steps(30, end), blink 0.9s infinite;
+}
+@keyframes typing {
   from {
-    mask-position: 100%;
-    -webkit-mask-position: 100%;
+    width: 0;
   }
   to {
-    mask-position: 0%;
-    -webkit-mask-position: 0%;
+    width: 100%;
   }
+}
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+a:hover {
+  box-shadow: 0 0 15px #00ffff66, inset 0 0 10px #00ffff33;
+  border-color: #00ffff;
 }
 </style>

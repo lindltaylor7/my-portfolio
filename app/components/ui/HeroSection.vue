@@ -6,7 +6,9 @@
     <canvas ref="bgCanvas" class="absolute inset-0 w-full h-full"></canvas>
 
     <!-- Texto principal -->
-    <div class="relative z-10">
+    <div
+      class="relative z-10 rounded-xl p-8 backdrop-blur-md bg-white/5 border border-white/10 shadow-lg"
+    >
       <h1 class="text-5xl font-bold">Hello Friend 👋</h1>
       <p class="text-xl mt-4 text-gray-400">I'm a FullStack Dev</p>
     </div>

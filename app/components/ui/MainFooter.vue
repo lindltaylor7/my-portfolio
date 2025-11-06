@@ -50,22 +50,22 @@ import { Github, Linkedin, Instagram } from "lucide-vue-next";
 
 const footerLinks = [
   { name: "Inicio", to: "/" },
-  { name: "Proyectos", to: "/projects" },
-  { name: "Filosofía", to: "/philosophy" },
-  { name: "Contacto", to: "/contact" },
+  { name: "Proyectos", to: "/" },
+  { name: "Blog", to: "/" },
+  { name: "Contacto", to: "/" },
 ];
 
 const socials = [
-  { name: "GitHub", icon: Github, link: "https://github.com/tuusuario" },
+  { name: "GitHub", icon: Github, link: "https://github.com/lindltaylor7" },
   {
     name: "LinkedIn",
     icon: Linkedin,
-    link: "https://linkedin.com/in/tuusuario",
+    link: "https://www.linkedin.com/in/jair-pariona-4a4712337",
   },
   {
     name: "Instagram",
     icon: Instagram,
-    link: "https://instagram.com/tuusuario",
+    link: "https://www.instagram.com/geekpilgrim",
   },
 ];
 </script>
