@@ -15,7 +15,7 @@ const post = ref(null);
 
 onMounted(async () => {
   const { data } = await axios.get(
-    `http://localhost:8000/api/posts/${route.params.slug}`
+    `https://jairpl.com/back/public/api/posts/${route.params.slug}`
   );
   post.value = data;
 
