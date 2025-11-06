@@ -86,7 +86,7 @@ const scrolled = ref(false);
 const navItems = [
   { name: "Inicio", to: "/" },
   { name: "Proyectos", to: "/" },
-  { name: "Blog", to: "/" },
+  { name: "Blog", to: "/blog" },
   { name: "Contacto", to: "/" },
 ];
 

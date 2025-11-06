@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@tresjs/nuxt": "^5.1.0",
+    "axios": "^1.13.2",
     "lucide-vue-next": "^0.552.0",
     "nuxt": "^4.2.0",
     "three": "^0.181.0",
