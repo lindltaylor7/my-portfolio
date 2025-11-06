@@ -8,25 +8,44 @@
 
 <script setup>
 import { useRoute } from "vue-router";
-import axios from "axios";
+import { useHead, useFetch, createError } from "#app"; // Importaciones necesarias
 
+// 1. Obtener la ruta
 const route = useRoute();
-const post = ref(null);
+const slug = route.params.slug;
 
-onMounted(async () => {
-  const { data } = await axios.get(
-    `https://jairpl.com/back/public/api/posts/${route.params.slug}`
-  );
-  post.value = data;
+// 2. Usar useFetch para cargar datos. Esto funciona tanto en SSR como en el cliente.
+const { data: post, error } = await useFetch(
+  `https://jairpl.com/back/public/api/posts/${slug}`,
+  {
+    // Opciones para manejar la carga y el error
+    key: `post-${slug}`, // Clave única para la caché
+  }
+);
 
-  useHead({
-    title: post.value.title + " | Jair Pariona",
-    meta: [
-      { name: "description", content: post.value.excerpt },
-      { property: "og:title", content: post.value.title },
-      { property: "og:description", content: post.value.excerpt },
-      { property: "og:image", content: post.value.image },
-    ],
+// 3. Manejo de errores 404
+if (error.value || !post.value) {
+  // Si useFetch encuentra un error de red o la API devuelve un código de error (ej. 404),
+  // o si la respuesta es nula/vacía, forzamos un error de Nuxt.
+
+  // Si la API devuelve un 404, useFetch captura 'error.value'
+  const statusCode = error.value?.statusCode || 404;
+
+  throw createError({
+    statusCode: statusCode,
+    statusMessage: "Artículo de Blog no encontrado",
+    fatal: true, // Esto asegura que la página de error de Nuxt se muestre.
   });
+}
+
+// 4. Configuración del <head> (SEO) - Ahora se ejecuta de forma síncrona después de obtener los datos
+useHead({
+  title: post.value.title + " | Jair Pariona",
+  meta: [
+    { name: "description", content: post.value.excerpt },
+    { property: "og:title", content: post.value.title },
+    { property: "og:description", content: post.value.excerpt },
+    { property: "og:image", content: post.value.image },
+  ],
 });
 </script>
