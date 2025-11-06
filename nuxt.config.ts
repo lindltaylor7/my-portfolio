@@ -10,7 +10,36 @@ export default defineNuxtConfig({
     preset: "static",
     prerender: {
       crawlLinks: true,
-      routes: ["/", "/blog"],
+      routes: ["/"],
+      failOnError: false,
+    },
+  },
+  hooks: {
+    async "nitro:config"(nitroConfig) {
+      if (nitroConfig.prerender?.routes) {
+        try {
+          // Usar fetch nativo en lugar de $fetch
+          const response = await fetch(
+            "https://jairpl.com/back/public/api/posts"
+          );
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const posts = await response.json();
+          const blogRoutes = posts.map((post: any) => `/blog/${post.slug}`);
+
+          console.log("Rutas de blog a generar:", blogRoutes);
+          nitroConfig.prerender.routes.push(...blogRoutes);
+        } catch (error) {
+          console.log(
+            "Error obteniendo posts, usando ruta por defecto:",
+            error
+          );
+          nitroConfig.prerender.routes.push("/blog/test");
+        }
+      }
     },
   },
   app: {

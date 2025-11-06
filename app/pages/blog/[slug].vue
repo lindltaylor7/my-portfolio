@@ -1,45 +1,74 @@
+<!-- pages/blog/[slug].vue -->
 <template>
-  <article class="max-w-3xl mx-auto py-20 px-6 text-gray-200">
-    <h1 class="text-5xl font-bold mb-6">{{ post?.title }}</h1>
-    <img v-if="post?.image" :src="post.image" class="rounded-lg mb-6" />
-    <div v-html="post?.content" class="prose prose-invert"></div>
+  <div v-if="pending">Cargando...</div>
+  <div v-else-if="error">
+    <p>Error cargando el post: {{ error.message }}</p>
+  </div>
+  <article v-else-if="post" class="max-w-3xl mx-auto py-20 px-6 text-gray-200">
+    <h1 class="text-5xl font-bold mb-6">{{ post.title }}</h1>
+    <img
+      v-if="post.image"
+      :src="post.image"
+      class="rounded-lg mb-6 w-full"
+      alt="Imagen del post"
+    />
+    <div v-html="post.content" class="prose prose-invert max-w-none"></div>
   </article>
+  <div v-else>
+    <p>Post no encontrado</p>
+  </div>
 </template>
 
 <script setup>
-import { useRoute } from "vue-router";
-import { useHead, useFetch, createError } from "#app"; // Importaciones necesarias
-
-// 1. Obtener la ruta
+// Obtener el slug de la ruta
+const route = useRoute();
+const slug = route.params.slug;
 const config = useRuntimeConfig();
-const url = `${config.public.apiBase}/posts/${slug}`;
 
-// 2. Usar useFetch para cargar datos. Esto funciona tanto en SSR como en el cliente.
-const { data: post, error } = await useFetch(url);
+// URL de la API
+const apiUrl = `${config.public.apiBase}/posts/${slug}`;
 
-// 3. Manejo de errores 404
-if (error.value || !post.value) {
-  // Si useFetch encuentra un error de red o la API devuelve un código de error (ej. 404),
-  // o si la respuesta es nula/vacía, forzamos un error de Nuxt.
+// Cargar datos con mejor manejo de errores
+const {
+  data: post,
+  pending,
+  error,
+} = await useAsyncData(`post-${slug}`, () =>
+  $fetch(apiUrl).catch((err) => {
+    console.error("Error fetching post:", err);
+    throw err;
+  })
+);
 
-  // Si la API devuelve un 404, useFetch captura 'error.value'
-  const statusCode = error.value?.statusCode || 404;
+// Manejo de errores - SIN throw createError durante prerender
+if (process.server) {
+  // Durante el prerender, solo log el error
+  if (error.value) {
+    console.error(`Error prerenderizando /blog/${slug}:`, error.value);
+  }
 
-  throw createError({
-    statusCode: statusCode,
-    statusMessage: "Artículo de Blog no encontrado",
-    fatal: true, // Esto asegura que la página de error de Nuxt se muestre.
-  });
+  if (!post.value) {
+    console.error(`Post no encontrado para slug: ${slug}`);
+  }
+} else {
+  // En el cliente, usa createError normalmente
+  if (error.value || !post.value) {
+    throw createError({
+      statusCode: error.value?.statusCode || 404,
+      statusMessage: "Post no encontrado",
+    });
+  }
 }
 
-// 4. Configuración del <head> (SEO) - Ahora se ejecuta de forma síncrona después de obtener los datos
-useHead({
-  title: post.value.title + " | Jair Pariona",
-  meta: [
-    { name: "description", content: post.value.excerpt },
-    { property: "og:title", content: post.value.title },
-    { property: "og:description", content: post.value.excerpt },
-    { property: "og:image", content: post.value.image },
-  ],
+// SEO condicional
+useSeoMeta({
+  title: post.value
+    ? `${post.value.title} | Jair Pariona`
+    : "Post no encontrado",
+  description: post.value?.excerpt || "Artículo del blog",
+  ogTitle: post.value?.title,
+  ogDescription: post.value?.excerpt,
+  ogImage: post.value?.image,
+  twitterCard: "summary_large_image",
 });
 </script>
