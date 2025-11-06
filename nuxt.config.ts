@@ -7,7 +7,10 @@ export default defineNuxtConfig({
   },
   ssr: true,
   nitro: {
-    preset: "static",
+    prerender: {
+      crawlLinks: true,
+      routes: [],
+    },
   },
   app: {
     head: {
