@@ -5,9 +5,13 @@ export default defineNuxtConfig({
       apiBase: "https://jairpl.com/back/public/api",
     },
   },
-  ssr: false,
+  ssr: true,
   nitro: {
     preset: "static",
+    prerender: {
+      crawlLinks: true,
+      routes: ["/", "/blog/test"],
+    },
   },
   app: {
     head: {
