@@ -11,17 +11,11 @@ import { useRoute } from "vue-router";
 import { useHead, useFetch, createError } from "#app"; // Importaciones necesarias
 
 // 1. Obtener la ruta
-const route = useRoute();
-const slug = route.params.slug;
+const config = useRuntimeConfig();
+const url = `${config.public.apiBase}/posts/${slug}`;
 
 // 2. Usar useFetch para cargar datos. Esto funciona tanto en SSR como en el cliente.
-const { data: post, error } = await useFetch(
-  `https://jairpl.com/back/public/api/posts/${slug}`,
-  {
-    // Opciones para manejar la carga y el error
-    key: `post-${slug}`, // Clave única para la caché
-  }
-);
+const { data: post, error } = await useFetch(url);
 
 // 3. Manejo de errores 404
 if (error.value || !post.value) {
