@@ -1,0 +1,1 @@
+import{_ as o,c as t,o as e}from"./DHk6Q8ME.js";const s={};function i(a,c,r,n,p,d){return e(),t("div",null," Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati odit quaerat, optio in ipsa saepe totam sunt dignissimos dolore odio. ")}const m=o(s,[["render",i]]);export{m as default};
